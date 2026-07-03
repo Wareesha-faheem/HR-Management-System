@@ -1,0 +1,40 @@
+export const initialAttendance = [
+  {
+    id: 1,
+    employeeId: 1,
+    date: "2026-07-01",
+    checkIn: "09:02",
+    checkOut: "17:10",
+    totalHours: 8.13,
+    overtime: 0.13,
+    status: "Present",
+    remarks: "",
+    approvedBy: null,
+  },
+
+  {
+    id: 2,
+    employeeId: 2,
+    date: "2026-07-01",
+    checkIn: "09:31",
+    checkOut: "17:00",
+    totalHours: 7.48,
+    overtime: 0,
+    status: "Late",
+    remarks: "Traffic delay",
+    approvedBy: null,
+  },
+
+  {
+    id: 3,
+    employeeId: 3,
+    date: "2026-07-01",
+    checkIn: "",
+    checkOut: "",
+    totalHours: 0,
+    overtime: 0,
+    status: "Absent",
+    remarks: "No show",
+    approvedBy: null,
+  },
+];

@@ -2,6 +2,7 @@
 
 import { useContext, useState } from "react";
 import { DepartmentContext } from "@/contexts/DepartmentContext";
+import EmployeeContext  from "@/contexts/Employee/EmployeeContext";
 
 const emptyForm = {
   name: "",
@@ -20,9 +21,9 @@ export default function DepartmentsPage() {
     deleteDepartment,
   } = useContext(DepartmentContext);
 
+  const { employees } = useContext(EmployeeContext);
   const [formData, setFormData] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
-
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -156,6 +157,30 @@ export default function DepartmentsPage() {
           </select>
         </div>
 
+        <div>
+  <label>Manager</label>
+  <br />
+
+  <select
+    name="managerId"
+    value={formData.managerId ?? ""}
+    onChange={handleChange}
+  >
+    <option value="">Select Manager</option>
+
+    {employees.map((employee) => (
+      <option
+        key={employee.id}
+        value={employee.id}
+      >
+        {employee.firstName} {employee.lastName}
+      </option>
+    ))}
+  </select>
+</div>
+
+    
+
         <button type="submit">
           {editingId ? "Update Department" : "Add Department"}
         </button>
@@ -199,7 +224,13 @@ export default function DepartmentsPage() {
               </td>
             </tr>
           ) : (
-            departments.map((department) => (
+            departments.map((department) => {
+  const manager = employees.find(
+    (emp) => emp.id == department.managerId
+  );
+
+  return (
+                
               <tr key={department.id}>
                 <td>{department.name}</td>
 
@@ -212,9 +243,10 @@ export default function DepartmentsPage() {
                 <td>{department.status}</td>
 
                 <td>
-                  {department.managerId ?? "Not Assigned"}
+                    {manager
+                        ? `${manager.firstName} ${manager.lastName}`
+                        : "Not Assigned"}
                 </td>
-
                 <td>
                   <button
                     onClick={() => handleEdit(department)}
@@ -230,7 +262,8 @@ export default function DepartmentsPage() {
                   </button>
                 </td>
               </tr>
-            ))
+            );
+        })
           )}
         </tbody>
       </table>
