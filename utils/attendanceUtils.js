@@ -1,101 +1,68 @@
-// Office location (change later from Settings if needed)
-export const OFFICE_LOCATION = {
-  latitude: 24.8607,
-  longitude: 67.0011,
-};
+// Kuickpay HQ office coordinates (mock) + geofence radius in meters.
+// export const OFFICE_LOCATION = { latitude: 24.8607, longitude: 67.0011 };
+export const OFFICE_LOCATION = { latitude: 24.896141573055584, longitude: 67.1168333916825 };
+export const OFFICE_RADIUS_METERS = 300;
 
-// Office radius in meters
-export const OFFICE_RADIUS = 100;
+export function getCurrentDate() {
+  return new Date().toISOString().split("T")[0];
+}
 
-// Convert degrees to radians
-function toRadians(value) {
+export function getCurrentTime() {
+  return new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+}
+
+function toRad(value) {
   return (value * Math.PI) / 180;
 }
 
-// Distance between two GPS coordinates (Haversine Formula)
-export function getDistance(lat1, lon1, lat2, lon2) {
-  const earthRadius = 6371000; // meters
-
-  const dLat = toRadians(lat2 - lat1);
-  const dLon = toRadians(lon2 - lon1);
-
+export function distanceInMeters(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
   const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRadians(lat1)) *
-      Math.cos(toRadians(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return earthRadius * c;
+  return Math.round(R * c);
 }
 
-// Check whether employee is inside office
 export function isInsideOffice(latitude, longitude) {
-  const distance = getDistance(
+  const distance = distanceInMeters(
     latitude,
     longitude,
     OFFICE_LOCATION.latitude,
     OFFICE_LOCATION.longitude
   );
-
-  return {
-    insideOffice: distance <= OFFICE_RADIUS,
-    distance: Math.round(distance),
-  };
+  return { insideOffice: distance <= OFFICE_RADIUS_METERS, distance };
 }
 
-// Current date (YYYY-MM-DD)
-export function getCurrentDate() {
-  return new Date().toISOString().split("T")[0];
+export const SHIFT_START_HOUR = 9;
+export const SHIFT_START_MINUTE = 15; // grace period before "Late"
+export const SHIFT_END_HOUR = 18;
+
+export function computeStatusFromCheckIn(checkInTime) {
+  const [h, m] = checkInTime.split(":").map(Number);
+  if (h > SHIFT_START_HOUR || (h === SHIFT_START_HOUR && m > SHIFT_START_MINUTE)) {
+    return "Late";
+  }
+  return "Checked In";
 }
 
-// Current time (HH:mm)
-export function getCurrentTime() {
-  const now = new Date();
-
-  return now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-}
-
-// Calculate hours worked
-export function calculateHours(checkIn, checkOut) {
+export function computeTotalHours(checkIn, checkOut) {
   if (!checkIn || !checkOut) return 0;
-
-  const today = getCurrentDate();
-
-  const start = new Date(`${today}T${checkIn}`);
-  const end = new Date(`${today}T${checkOut}`);
-
-  const hours = (end - start) / (1000 * 60 * 60);
-
-  return Number(hours.toFixed(2));
+  const [inH, inM] = checkIn.split(":").map(Number);
+  const [outH, outM] = checkOut.split(":").map(Number);
+  const minutes = outH * 60 + outM - (inH * 60 + inM);
+  return Math.max(0, Math.round((minutes / 60) * 100) / 100);
 }
 
-// Calculate overtime
-export function calculateOvertime(hoursWorked) {
-  if (hoursWorked <= 8) return 0;
-
-  return Number((hoursWorked - 8).toFixed(2));
+export function computeOvertime(totalHours) {
+  const standard = 8;
+  return totalHours > standard ? Math.round((totalHours - standard) * 100) / 100 : 0;
 }
 
-// Decide attendance status
-export function calculateStatus(checkIn, totalHours) {
-  if (!checkIn) return "Absent";
-
-  const [hour, minute] = checkIn.split(":").map(Number);
-
-  const arrival = hour * 60 + minute;
-
-  const officeStart = 9 * 60;
-
+export function finalizeStatus(totalHours, currentStatus) {
   if (totalHours < 4) return "Half Day";
-
-  if (arrival > officeStart + 15) return "Late";
-
+  if (currentStatus === "Late") return "Late";
   return "Present";
 }
