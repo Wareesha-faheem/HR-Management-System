@@ -3,6 +3,14 @@
 // entry, same pattern as candidates+requisitions.
 export function ProjectReducer(state, action) {
   switch (action.type) {
+    case "__HYDRATE__":
+      return {
+        ...state,
+        ...(action.payload || {}),
+        projects: Array.isArray(action.payload?.projects) ? action.payload.projects : state.projects,
+        tasks: Array.isArray(action.payload?.tasks) ? action.payload.tasks : state.tasks,
+      };
+
     case "ADD_PROJECT":
       return { ...state, projects: [...state.projects, action.payload] };
 
