@@ -36,9 +36,9 @@ export function isInsideOffice(latitude, longitude) {
   return { insideOffice: distance <= OFFICE_RADIUS_METERS, distance };
 }
 
-export const SHIFT_START_HOUR = 9;
-export const SHIFT_START_MINUTE = 15; // grace period before "Late"
-export const SHIFT_END_HOUR = 18;
+export const SHIFT_START_HOUR = 11;
+export const SHIFT_START_MINUTE = 0; // grace period before "Late"
+export const SHIFT_END_HOUR = 20;
 
 export function computeStatusFromCheckIn(checkInTime) {
   const [h, m] = checkInTime.split(":").map(Number);
