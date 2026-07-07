@@ -27,6 +27,7 @@ export const MODULES = {
   LEAVE: "leave",
   PAYROLL: "payroll",
   RECRUITMENT: "recruitment",
+  PROJECTS: "projects",
   REPORTS: "reports",
   SETTINGS: "settings",
   NOTICES: "notices",
@@ -104,6 +105,16 @@ const PERMISSIONS = {
     [ACTIONS.EDIT]: [SUPER_ADMIN, HR],
     [ACTIONS.DELETE]: [SUPER_ADMIN, HR],
   },
+  [MODULES.PROJECTS]: {
+    // Deliberately NOT ALL_ROLES: this module is scoped to a Manager and
+    // their own team only. Super Admin, HR and Payroll Manager have no
+    // access at all — they don't manage day-to-day departmental work.
+    [ACTIONS.VIEW]: [MANAGER, EMPLOYEE],
+    [ACTIONS.VIEW_ALL]: [MANAGER],                     // Manager sees every project/task in their own department
+    [ACTIONS.CREATE]: [MANAGER],                       // only the department Manager creates projects & tasks
+    [ACTIONS.EDIT]: [MANAGER],
+    [ACTIONS.DELETE]: [MANAGER],
+  },
   [MODULES.REPORTS]: {
     [ACTIONS.VIEW]: [SUPER_ADMIN, HR, MANAGER, PAYROLL_MANAGER],
     [ACTIONS.EXPORT]: [SUPER_ADMIN, HR, PAYROLL_MANAGER],
@@ -130,6 +141,8 @@ export const ROUTE_MODULE_MAP = {
   "/leave": MODULES.LEAVE,
   "/payroll": MODULES.PAYROLL,
   "/recruitment": MODULES.RECRUITMENT,
+  "/projects": MODULES.PROJECTS,
+  "/my-tasks": MODULES.PROJECTS,
   "/reports": MODULES.REPORTS,
   "/settings": MODULES.SETTINGS,
 };
@@ -141,6 +154,7 @@ const DEPARTMENT_SCOPED_FOR_MANAGER = [
   MODULES.ATTENDANCE,
   MODULES.LEAVE,
   MODULES.RECRUITMENT,
+  MODULES.PROJECTS,
 ];
 
 export function isDeptScoped(role, moduleName) {
@@ -200,8 +214,10 @@ export function getAccessibleNavItems(role, overrides) {
     { key: MODULES.LEAVE, label: "Leave", href: "/leave", icon: "CalendarDays" },
     { key: MODULES.PAYROLL, label: "Payroll", href: "/payroll", icon: "Wallet" },
     { key: MODULES.RECRUITMENT, label: "Recruitment", href: "/recruitment", icon: "BriefcaseBusiness" },
+    { key: "projects-board", label: "Projects", href: "/projects", icon: "KanbanSquare", module: MODULES.PROJECTS },
+    { key: "my-tasks", label: "My Tasks", href: "/my-tasks", icon: "ListTodo", module: MODULES.PROJECTS },
     { key: MODULES.REPORTS, label: "Reports", href: "/reports", icon: "BarChart3" },
     { key: MODULES.SETTINGS, label: "Settings", href: "/settings", icon: "Settings" },
   ];
-  return items.filter((item) => hasPermission(role, item.key, ACTIONS.VIEW, overrides));
+  return items.filter((item) => hasPermission(role, item.module || item.key, ACTIONS.VIEW, overrides));
 }

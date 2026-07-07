@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Users, Building2, Fingerprint, CalendarDays,
-  Wallet, BriefcaseBusiness, BarChart3, Settings, X,
+  Wallet, BriefcaseBusiness, BarChart3, Settings, X, KanbanSquare, ListTodo,
 } from "lucide-react";
 import AuthContext from "@/contexts/AuthContext";
 import { usePermissions } from "@/hooks/usePermissions";
@@ -15,7 +15,7 @@ import { cn } from "@/utils/cn";
 
 const ICONS = {
   LayoutDashboard, Users, Building2, Fingerprint, CalendarDays,
-  Wallet, BriefcaseBusiness, BarChart3, Settings,
+  Wallet, BriefcaseBusiness, BarChart3, Settings, KanbanSquare, ListTodo,
 };
 
 export default function Sidebar({ mobileOpen, onCloseMobile }) {

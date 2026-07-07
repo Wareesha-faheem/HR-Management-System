@@ -42,4 +42,5 @@ export const STORAGE_KEYS = {
   SETTINGS: "hrms.settings",
   PERMISSIONS: "hrms.permissions",
   NOTICES: "hrms.notices",
+  PROJECTS: "kuickpay_projects",
 };

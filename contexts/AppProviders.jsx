@@ -10,6 +10,7 @@ import { AttendanceProvider } from "@/contexts/AttendanceContext";
 import { LeaveProvider } from "@/contexts/LeaveContext";
 import { PayrollProvider } from "@/contexts/PayrollContext";
 import { RecruitmentProvider } from "@/contexts/RecruitmentContext";
+import { ProjectProvider } from "@/contexts/ProjectContext";
 import { NoticeProvider } from "@/contexts/NoticeContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import ToastViewport from "@/components/ui/ToastViewport";
@@ -29,12 +30,14 @@ export default function AppProviders({ children }) {
                   <LeaveProvider>
                     <PayrollProvider>
                       <RecruitmentProvider>
-                        <NoticeProvider>
-                          <NotificationProvider>
-                            {children}
-                            <ToastViewport />
-                          </NotificationProvider>
-                        </NoticeProvider>
+                        <ProjectProvider>
+                          <NoticeProvider>
+                            <NotificationProvider>
+                              {children}
+                              <ToastViewport />
+                            </NotificationProvider>
+                          </NoticeProvider>
+                        </ProjectProvider>
                       </RecruitmentProvider>
                     </PayrollProvider>
                   </LeaveProvider>
