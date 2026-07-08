@@ -66,43 +66,41 @@ export default function CheckInWidget() {
   }
 
   return (
-    <Card glass className="bg-brand-gradient text-white border-0 shadow-glow-brand">
+    <Card>
       <CardBody>
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm text-white/70">Today · {today}</p>
-            <p className="mt-1 flex items-center gap-2 text-3xl font-bold tabular-nums">
-              <Clock className="h-6 w-6" /> {currentTime}
+            <p className="text-sm text-secondary">Today · {today}</p>
+            <p className="mt-1 flex items-center gap-2 text-2xl font-semibold text-primary tabular-nums">
+              <Clock className="h-5 w-5 text-brand" /> {currentTime}
             </p>
           </div>
 
           {!todayAttendance ? (
-            <Button onClick={handleCheckIn} loading={locating} variant="secondary" size="lg" icon={LogIn} className="bg-surface text-brand-dark hover:bg-surface/90 dark:text-brand-light">
+            <Button onClick={handleCheckIn} loading={locating} icon={LogIn}>
               Check In
             </Button>
           ) : (
             <div className="flex flex-wrap items-center gap-4">
               <div className="text-sm">
-                <p className="text-white/70">Check-in</p>
-                <p className="font-semibold">{todayAttendance.checkIn}</p>
+                <p className="text-secondary">Check-in</p>
+                <p className="font-medium text-primary">{todayAttendance.checkIn}</p>
               </div>
               <div className="text-sm">
-                <p className="text-white/70">Check-out</p>
-                <p className="font-semibold">{todayAttendance.checkOut || "--"}</p>
+                <p className="text-secondary">Check-out</p>
+                <p className="font-medium text-primary">{todayAttendance.checkOut || "--"}</p>
               </div>
               <div className="text-sm">
-                <p className="text-white/70">Hours</p>
-                <p className="font-semibold">{todayAttendance.totalHours || 0}h</p>
+                <p className="text-secondary">Hours</p>
+                <p className="font-medium text-primary">{todayAttendance.totalHours || 0}h</p>
               </div>
-              <Badge tone={todayAttendance.status} className="bg-white/15 text-white border-white/20">
-                {todayAttendance.status}
-              </Badge>
-              <span className="flex items-center gap-1 text-xs text-white/70">
+              <Badge tone={todayAttendance.status}>{todayAttendance.status}</Badge>
+              <span className="flex items-center gap-1 text-xs text-secondary">
                 <MapPin className="h-3.5 w-3.5" />
                 {todayAttendance.insideOffice ? "Verified on-site" : "Outside office"}
               </span>
               {!todayAttendance.checkOut && (
-                <Button onClick={handleCheckOut} variant="secondary" icon={LogOut} className="bg-surface text-brand-dark hover:bg-surface/90 dark:text-brand-light">
+                <Button onClick={handleCheckOut} variant="secondary" icon={LogOut}>
                   Check Out
                 </Button>
               )}

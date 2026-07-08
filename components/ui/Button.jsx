@@ -4,20 +4,19 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/utils/cn";
 
 const VARIANTS = {
-  primary:
-    "bg-brand-gradient text-white shadow-glow-brand hover:brightness-110 active:brightness-95",
+  primary: "bg-brand text-white hover:brightness-95 active:brightness-90",
   secondary:
-    "bg-surface-2 text-primary hover:bg-opacity-80 border border-[rgb(var(--border-subtle))]",
+    "bg-surface text-primary hover:bg-surface-2 border border-[rgb(var(--border-subtle))]",
   ghost: "bg-transparent text-primary hover:bg-surface-2",
   danger: "bg-red-600 text-white hover:bg-red-500",
   outline: "bg-transparent border border-[rgb(var(--border-subtle))] text-primary hover:bg-surface-2",
 };
 
 const SIZES = {
-  sm: "h-8 px-3 text-sm rounded-lg",
-  md: "h-10 px-4 text-sm rounded-xl",
-  lg: "h-12 px-6 text-base rounded-xl",
-  icon: "h-10 w-10 rounded-xl",
+  sm: "h-8 px-3 text-xs rounded-md",
+  md: "h-9 px-3.5 text-sm rounded-md",
+  lg: "h-10 px-5 text-sm rounded-md",
+  icon: "h-9 w-9 rounded-md",
 };
 
 export default function Button({
@@ -36,7 +35,7 @@ export default function Button({
       type={type}
       disabled={disabled || loading}
       className={cn(
-        "inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap",
+        "inline-flex items-center justify-center gap-2 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap",
         VARIANTS[variant],
         SIZES[size],
         className

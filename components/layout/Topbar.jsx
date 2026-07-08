@@ -10,8 +10,6 @@ import Avatar from "@/components/ui/Avatar";
 import { timeAgo } from "@/utils/formatters";
 import { cn } from "@/utils/cn";
 
-// Fallback for notifications persisted before `link` existed, or any pushed
-// without one — keyed by type so a click always goes somewhere sensible.
 const TYPE_ROUTE_FALLBACK = {
   leave: "/leave",
   attendance: "/attendance",
@@ -53,10 +51,10 @@ export default function Topbar({ onOpenMobileSidebar }) {
   }
 
   return (
-    <header className="no-print sticky top-0 z-20 flex h-[72px] items-center justify-between gap-4 border-b border-[rgb(var(--border-subtle))] bg-surface/80 backdrop-blur-md px-4 sm:px-6 lg:px-8">
+    <header className="no-print sticky top-0 z-20 flex h-14 items-center justify-between gap-4 border-b border-[rgb(var(--border-subtle))] bg-surface px-4 sm:px-6 lg:px-8">
       <button
         onClick={onOpenMobileSidebar}
-        className="flex h-10 w-10 items-center justify-center rounded-xl text-secondary hover:bg-surface-2 hover:text-primary transition-colors lg:hidden"
+        className="flex h-9 w-9 items-center justify-center rounded-md text-secondary hover:bg-surface-2 hover:text-primary transition-colors lg:hidden"
       >
         <Menu className="h-5 w-5" />
       </button>
@@ -70,32 +68,26 @@ export default function Topbar({ onOpenMobileSidebar }) {
           <button
             onClick={() => setNotifOpen((v) => !v)}
             className={cn(
-              "relative flex h-10 w-10 items-center justify-center rounded-xl border transition-all duration-150",
+              "relative flex h-9 w-9 items-center justify-center rounded-md border transition-colors",
               notifOpen
-                ? "border-brand/40 bg-brand-gradient-soft text-brand"
-                : "border-[rgb(var(--border-subtle))] bg-surface-2 text-secondary hover:text-brand hover:border-brand/30"
+                ? "border-brand/40 text-brand"
+                : "border-[rgb(var(--border-subtle))] text-secondary hover:text-brand"
             )}
           >
-            <Bell className="h-4.5 w-4.5" />
+            <Bell className="h-4 w-4" />
             {unreadCount > 0 && (
-              <span
-                className={cn(
-                  "absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full px-1",
-                  "bg-red-500 text-[10px] font-semibold leading-none text-white",
-                  "ring-2 ring-[rgb(var(--bg-surface))]"
-                )}
-              >
+              <span className="absolute -right-1 -top-1 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-semibold leading-none text-white ring-2 ring-[rgb(var(--bg-surface))]">
                 {unreadCount > 9 ? "9+" : unreadCount}
               </span>
             )}
           </button>
 
           {notifOpen && (
-            <div className="absolute right-0 mt-2.5 w-80 rounded-xl2 border border-[rgb(var(--border-subtle))] bg-surface shadow-glass animate-fade-in overflow-hidden">
-              <div className="flex items-center justify-between border-b border-[rgb(var(--border-subtle))] px-4 py-3.5">
-                <p className="text-sm font-semibold font-display text-primary">Notifications</p>
+            <div className="absolute right-0 mt-2 w-80 rounded-lg border border-[rgb(var(--border-subtle))] bg-surface shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between border-b border-[rgb(var(--border-subtle))] px-4 py-3">
+                <p className="text-sm font-semibold text-primary">Notifications</p>
                 {unreadCount > 0 && (
-                  <button onClick={markAllRead} className="flex items-center gap-1 text-xs font-medium text-brand hover:text-brand-light transition-colors">
+                  <button onClick={markAllRead} className="flex items-center gap-1 text-xs font-medium text-brand hover:underline">
                     <Check className="h-3 w-3" /> Mark all read
                   </button>
                 )}
@@ -109,8 +101,8 @@ export default function Topbar({ onOpenMobileSidebar }) {
                       key={n.id}
                       onClick={() => handleNotificationClick(n)}
                       className={cn(
-                        "block w-full px-4 py-3 text-left border-b border-[rgb(var(--border-subtle))] last:border-0 hover:bg-surface-2 transition-colors cursor-pointer",
-                        !n.read && "bg-brand/5"
+                        "block w-full px-4 py-3 text-left border-b border-[rgb(var(--border-subtle))] last:border-0 hover:bg-surface-2 transition-colors",
+                        !n.read && "bg-surface-2"
                       )}
                     >
                       <div className="flex items-start justify-between gap-2">
@@ -127,37 +119,37 @@ export default function Topbar({ onOpenMobileSidebar }) {
           )}
         </div>
 
-        <div className="mx-0.5 hidden h-8 w-px bg-[rgb(var(--border-subtle))] sm:block" />
+        <div className="mx-0.5 hidden h-7 w-px bg-[rgb(var(--border-subtle))] sm:block" />
 
         <div className="relative" ref={userRef}>
           <button
             onClick={() => setUserOpen((v) => !v)}
             className={cn(
-              "flex items-center gap-2.5 rounded-xl py-1 pl-1 pr-2.5 transition-colors duration-150",
+              "flex items-center gap-2 rounded-md py-1 pl-1 pr-2 transition-colors",
               userOpen ? "bg-surface-2" : "hover:bg-surface-2"
             )}
           >
-            <Avatar firstName={user?.firstName} lastName={user?.lastName} color={user?.avatarColor} size={36} />
+            <Avatar firstName={user?.firstName} lastName={user?.lastName} color={user?.avatarColor} size={32} />
             <div className="hidden text-left sm:block">
-              <p className="text-sm font-medium text-primary leading-none">
+              <p className="text-xs font-medium text-primary leading-none">
                 {user?.firstName} {user?.lastName}
               </p>
-              <p className="text-[11px] text-secondary leading-none mt-1.5">{user?.role}</p>
+              <p className="text-[10px] text-secondary leading-none mt-1">{user?.role}</p>
             </div>
           </button>
 
           {userOpen && (
-            <div className="absolute right-0 mt-2.5 w-52 rounded-xl2 border border-[rgb(var(--border-subtle))] bg-surface shadow-glass animate-fade-in overflow-hidden py-1.5">
+            <div className="absolute right-0 mt-2 w-48 rounded-lg border border-[rgb(var(--border-subtle))] bg-surface shadow-sm overflow-hidden py-1">
               <button
                 onClick={() => { setUserOpen(false); router.push("/settings"); }}
-                className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-primary hover:bg-surface-2 transition-colors"
+                className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-primary hover:bg-surface-2 transition-colors"
               >
                 <UserIcon className="h-4 w-4 text-secondary" /> Profile & Settings
               </button>
               <div className="my-1 h-px bg-[rgb(var(--border-subtle))]" />
               <button
                 onClick={handleLogout}
-                className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-red-500 hover:bg-red-500/10 transition-colors"
+                className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-red-500 hover:bg-red-500/10 transition-colors"
               >
                 <LogOut className="h-4 w-4" /> Logout
               </button>

@@ -75,11 +75,11 @@ export default function DepartmentsPage() {
                 <CardBody>
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-gradient text-white font-bold shadow-glow-brand">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-md border border-[rgb(var(--border-subtle))] text-brand font-semibold text-sm">
                         {dept.code}
                       </div>
                       <div>
-                        <p className="font-semibold text-primary">{dept.name}</p>
+                        <p className="text-sm font-semibold text-primary">{dept.name}</p>
                         <p className="text-xs text-secondary flex items-center gap-1"><MapPin className="h-3 w-3" />{dept.location}</p>
                       </div>
                     </div>
@@ -111,8 +111,8 @@ export default function DepartmentsPage() {
                       <span>Headcount</span>
                       <span>{headcount} / {dept.headcountTarget || "—"}</span>
                     </div>
-                    <div className="h-2 rounded-full bg-surface-2 overflow-hidden">
-                      <div className="h-full bg-brand-gradient rounded-full" style={{ width: `${pct}%` }} />
+                    <div className="h-1.5 rounded-full bg-surface-2 overflow-hidden">
+                      <div className="h-full bg-brand rounded-full" style={{ width: `${pct}%` }} />
                     </div>
                   </div>
                 </CardBody>

@@ -6,7 +6,7 @@ export function Card({ className, children, glass = false, ...props }) {
   return (
     <div
       className={cn(
-        "rounded-xl2 border border-[rgb(var(--border-subtle))]",
+        "rounded-lg border border-[rgb(var(--border-subtle))]",
         glass ? "glass-panel shadow-glass" : "bg-surface",
         className
       )}

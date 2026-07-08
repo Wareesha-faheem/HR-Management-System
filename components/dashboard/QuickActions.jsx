@@ -26,15 +26,15 @@ export default function QuickActions() {
       <CardHeader>
         <CardTitle>Quick actions</CardTitle>
       </CardHeader>
-      <CardBody className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <CardBody className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
         {actions.map((action) => (
           <button
             key={action.href}
             onClick={() => router.push(action.href)}
-            className="flex flex-col items-center gap-2 rounded-xl border border-[rgb(var(--border-subtle))] bg-surface-2 p-4 text-center hover:border-brand hover:shadow-glow-brand transition-all"
+            className="flex flex-col items-center gap-2 rounded-md border border-[rgb(var(--border-subtle))] bg-surface p-3.5 text-center hover:border-brand/50 hover:bg-surface-2 transition-colors"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gradient-soft text-brand">
-              <action.icon className="h-5 w-5" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-md border border-[rgb(var(--border-subtle))] text-brand">
+              <action.icon className="h-4 w-4" />
             </div>
             <span className="text-xs font-medium text-primary">{action.label}</span>
           </button>
