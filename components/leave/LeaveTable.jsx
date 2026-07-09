@@ -42,7 +42,7 @@ export default function LeaveTable({ scope = "all" }) {
     reviewLeave(leave.id, status, user.employeeId);
     const emp = getEmployeeById(leave.employeeId);
     toast({ title: `Leave ${status.toLowerCase()}`, description: `${emp?.firstName}'s request was ${status.toLowerCase()}.`, variant: status === "Approved" ? "success" : "default" });
-    pushNotification({ title: `Leave ${status}`, message: `${emp?.firstName} ${emp?.lastName}'s ${leave.leaveType} leave was ${status.toLowerCase()}.`, type: "leave", link: "/leave" });
+    pushNotification({ title: `Leave ${status}`, message: `${emp?.firstName} ${emp?.lastName}'s ${leave.leaveType} leave was ${status.toLowerCase()}.`, type: "leave", link: "/leave", audience: "users", userIds: [leave.employeeId] });
   }
 
   function handleDelete(id) {

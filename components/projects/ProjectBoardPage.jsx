@@ -102,11 +102,10 @@ export default function ProjectBoardPage({ projectId }) {
   function notifyAssignee(task) {
     const link = `/projects/${project.id}`;
     if (task.assigneeType === "employee") {
-      const emp = getEmployeeById(task.assigneeId);
-      pushNotification({ title: "New task assigned", message: `"${task.title}" was assigned to you in ${project.name}.`, type: "task", link });
+      pushNotification({ title: "New task assigned", message: `"${task.title}" was assigned to you in ${project.name}.`, type: "task", link, audience: "users", userIds: [task.assigneeId] });
     } else {
       const dept = getDepartmentById(task.assigneeId);
-      pushNotification({ title: "New task for your department", message: `"${task.title}" was assigned to ${dept?.name} in ${project.name}.`, type: "task", link });
+      pushNotification({ title: "New task for your department", message: `"${task.title}" was assigned to ${dept?.name} in ${project.name}.`, type: "task", link, audience: "departments", departmentIds: [task.assigneeId] });
     }
   }
 

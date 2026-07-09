@@ -41,6 +41,8 @@ export default function NoticeBoard() {
       message: payload.title,
       type: "notice",
       link: "/dashboard",
+      audience: payload.scope === "department" ? "departments" : "all",
+      departmentIds: payload.scope === "department" && payload.departmentId ? [payload.departmentId] : [],
     });
     setModalOpen(false);
   }

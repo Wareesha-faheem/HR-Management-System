@@ -43,6 +43,8 @@ export default function RequisitionsPanel() {
       message: `${getDepartmentById(payload.departmentId)?.name} requested a ${payload.positionTitle}.`,
       type: "recruitment",
       link: "/recruitment",
+      audience: "roles",
+      roles: ["HR"],
     });
     setModalOpen(false);
   }

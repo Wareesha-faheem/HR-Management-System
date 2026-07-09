@@ -62,7 +62,7 @@ export default function EmployeesPage() {
     } else {
       addEmployee(payload);
       toast({ title: "Employee added", description: `${payload.firstName} ${payload.lastName} has joined Kuickpay.`, variant: "success" });
-      pushNotification({ title: "New employee added", message: `${payload.firstName} ${payload.lastName} was added to ${getDepartmentById(payload.departmentId)?.name}.`, type: "employee", link: "/employees" });
+      pushNotification({ title: "New employee added", message: `${payload.firstName} ${payload.lastName} was added to ${getDepartmentById(payload.departmentId)?.name}.`, type: "employee", link: "/employees", audience: "roles", roles: ["HR", "Super Admin"] });
     }
     setModalOpen(false);
   }

@@ -54,6 +54,8 @@ export default function PayrollPage() {
       message: emp ? `${emp.firstName} ${emp.lastName}'s ${record.month} salary was marked as paid.` : "A salary run was marked as paid.",
       type: "payroll",
       link: "/payroll",
+      audience: "users",
+      userIds: [record?.employeeId].filter(Boolean),
     });
   }
 

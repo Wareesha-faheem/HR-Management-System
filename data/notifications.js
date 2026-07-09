@@ -6,10 +6,10 @@ const D = (offsetHours) => {
 
 // `link` is where clicking the notification should take you.
 export const initialNotifications = [
-  { id: 1, title: "Leave request pending", message: "Rumi Khan requested Annual leave.", type: "leave", link: "/leave", read: false, createdAt: D(1) },
-  { id: 2, title: "Payroll due", message: "July payroll run is pending approval.", type: "payroll", link: "/payroll", read: false, createdAt: D(4) },
-  { id: 3, title: "New candidate", message: "Zara Baig moved to Screening stage.", type: "recruitment", link: "/recruitment", read: true, createdAt: D(20) },
-  { id: 4, title: "Attendance anomaly", message: "3 check-ins were outside the office geofence today.", type: "attendance", link: "/attendance", read: true, createdAt: D(30) },
+  { id: 1, title: "Leave request pending", message: "Rumi Khan requested Annual leave.", type: "leave", link: "/leave", audience: "roles", roles: ["HR", "Manager"], readBy: [], createdAt: D(1) },
+  { id: 2, title: "Payroll due", message: "July payroll run is pending approval.", type: "payroll", link: "/payroll", audience: "roles", roles: ["HR", "Super Admin"], readBy: [], createdAt: D(4) },
+  { id: 3, title: "New candidate", message: "Zara Baig moved to Screening stage.", type: "recruitment", link: "/recruitment", audience: "roles", roles: ["HR"], readBy: [1], createdAt: D(20) },
+  { id: 4, title: "Attendance anomaly", message: "3 check-ins were outside the office geofence today.", type: "attendance", link: "/attendance", audience: "roles", roles: ["HR", "Super Admin"], readBy: [1], createdAt: D(30) },
 ];
 
 // Default preferences per notification type — used both to render the

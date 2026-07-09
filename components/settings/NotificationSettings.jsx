@@ -14,14 +14,16 @@ function Toggle({ checked, onChange }) {
       aria-checked={checked}
       onClick={onChange}
       className={cn(
-        "relative h-6 w-11 flex-shrink-0 rounded-full transition-colors",
-        checked ? "bg-brand-gradient" : "bg-surface-2 border border-[rgb(var(--border-subtle))]"
+        "relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full border p-0.5 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
+        checked
+          ? "border-brand/40 bg-brand-gradient shadow-[0_0_0_1px_rgba(30,94,255,0.15)]"
+          : "border-[rgb(var(--border-subtle))] bg-surface-2"
       )}
     >
       <span
         className={cn(
-          "absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-150",
-          checked ? "translate-x-5" : "translate-x-0.5"
+          "h-5 w-5 rounded-full bg-white shadow-sm ring-1 ring-black/5 transition-transform duration-200",
+          checked ? "translate-x-5" : "translate-x-0"
         )}
       />
     </button>

@@ -32,7 +32,7 @@ export default function LeavePage() {
   function handleSubmit(form) {
     applyLeave({ ...form, employeeId: user.employeeId });
     toast({ title: "Leave request submitted", description: "Your manager will review it shortly.", variant: "success" });
-    pushNotification({ title: "New leave request", message: `${user.firstName} ${user.lastName} requested ${form.leaveType} leave.`, type: "leave", link: "/leave" });
+    pushNotification({ title: "New leave request", message: `${user.firstName} ${user.lastName} requested ${form.leaveType} leave.`, type: "leave", link: "/leave", audience: "roles", roles: ["HR", "Manager"] });
     setModalOpen(false);
   }
 
